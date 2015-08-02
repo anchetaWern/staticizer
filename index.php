@@ -86,6 +86,7 @@ foreach($routes as $route){
 		echo "updated {$route}\n";
 	}
 }
+echo "done updating database\n";
 
 
 echo "generating files...\n";
@@ -101,6 +102,21 @@ foreach($news_sources as $src){
 	file_put_contents($path . "/" . STATIC_PATH . "/{$src}.html", $contents);
 	echo "created {$src}.html\n";
 }
+echo "done generating files\n";
+
+
+$categories_json = file_get_contents(BASE_URL . "/json/update");
+$categories = json_decode($categories_json, true);
+
+echo "generating json\n";
+
+foreach($categories as $category){
+
+	$json = file_get_contents(BASE_URL . "/files/{$category}.json");
+	file_put_contents($path . "/" . STATIC_PATH . "/" . JSON_PATH . "/{$category}.json", $json);
+}
+
+echo "done generating json\n";
 
 
 echo "pushing to git...\n";
