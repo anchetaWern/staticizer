@@ -77,7 +77,7 @@ $routes = array(
 	'webops',
 	'webperformancenews'
 );
-/*
+
 echo "updating database...\n";
 
 foreach($routes as $route){
@@ -103,7 +103,7 @@ foreach($news_sources as $src){
 	echo "created {$src}.html\n";
 }
 echo "done generating files\n";
-*/
+
 
 echo "generating json\n";
 
