@@ -1,6 +1,5 @@
 <?php
 include 'config.php';
-include 'Git.php';
 
 $path = getcwd();
 
@@ -19,7 +18,8 @@ $news_sources = array(
 	'ruby',
 	'db',
 	'programmer',
-	'design',
+	'webdesign',
+	'uxdesign',
 	'gamedev',
 	'webdev',
 	'web-operations',
@@ -32,61 +32,10 @@ $news_sources = array(
 	'perl',
 	'devops',
 	'wordpress',
-	'nondev'
+	'nondev',
+	'longreads-tech',
+	'pockethits'
 );
-
-$routes = array(
-	'hn',
-	'echojs',
-	'nextdraft',
-	'versioning',
-	'html5weekly',
-	'jsweekly',
-	'rubyweekly',
-	'dbweekly',
-	'postgresweekly',
-	'statuscode',
-	'nodeweekly',
-	'phpweekly',
-	'rdweekly',
-	'nosqlweekly',
-	'pythonweekly',
-	'webtoolsweekly',
-	'wdrl',
-	'wdweekly',
-	'mobilewebweekly',
-	'heydesigner',
-	'cssweekly',
-	'gamedevjs',
-	'emberweekly',
-	'wpmailme',
-	'beyonddesktop',
-	'pycoders',
-	'perlweekly',
-	'devopsweekly',
-	'golangweekly',
-	'iosdevweekly',
-	'sidebario',
-	'androidweekly',
-	'medium',
-	'readability',
-	'slashdot',
-	'producthunt',
-	'designernews',
-	'github',
-	'webops',
-	'webperformancenews'
-);
-
-echo "updating database...\n";
-
-foreach($routes as $route){
-	$response = file_get_contents(BASE_URL . "{$route}/update");
-	if($response){
-		echo "updated {$route}\n";
-	}
-}
-echo "done updating database\n";
 
 
 echo "generating files...\n";
@@ -111,6 +60,9 @@ $categories_json = file_get_contents(BASE_URL . "/json/update");
 $categories = json_decode($categories_json, true);
 
 
+$sources_json = file_get_contents(BASE_URL . "/files/sources.json");
+file_put_contents($path . "/" . STATIC_PATH . "/" . JSON_PATH . "/sources.json", $sources_json);
+
 foreach($categories as $category){
 
 	$json = file_get_contents(BASE_URL . "/files/{$category}.json");
@@ -118,14 +70,3 @@ foreach($categories as $category){
 }
 
 echo "done generating json\n";
-
-
-echo "pushing to git...\n";
-
-$repo = Git::open($path . '/' . STATIC_PATH); 
-
-$repo->add('.');
-$repo->commit(time());
-$repo->push('origin', 'master');
-
-echo "successfully pushed!\n";
