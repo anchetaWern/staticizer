@@ -50,6 +50,11 @@ git push -u origin master
 ```
 
 
+##Project Status
+
+Abandonware. I no longer have any plans on improving and maintaining this project.
+
+
 ##License
 
 The MIT License (MIT) Copyright (c)
